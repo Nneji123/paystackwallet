@@ -1,0 +1,20 @@
+{% extends 'mywallet/main.html' %}
+{% block content %}
+<div class="container mt-5 mx-auto" style="max-width: 500px">
+    <div class="card">
+
+<div class="card rounded">
+    <div class="card-body">
+      <h5 class="card-title">Wallet Balance</h5>
+      <p class="card-text">User Information:</p>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Username: {{ user.username }}</li>
+        <li class="list-group-item">Email: {{ user.email }}</li>
+        <li class="list-group-item">Wallet Balance: {{ wallet_balance }}</li>
+      </ul>
+      <a href="{% url 'logout' %}" class="btn btn-danger mt-3">Logout</a>
+    </div>
+  </div>
+</div>
+</div>
+{% endblock %}

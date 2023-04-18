@@ -1,0 +1,53 @@
+{% extends 'mywallet/main.html' %}
+{% block content %}
+<div class="container mt-5 mx-auto" style="max-width: 500px">
+  <div class="card">
+
+    <h1 class="mx-auto" style="color: green">Login to MyWallet</h1>
+    <form class="mx-auto" style="max-width: 300px;" method="post">
+      <!-- Email input -->
+      {% csrf_token %}
+
+      {% if form.errors %}
+      <div class="alert alert-danger" class="mx-auto">
+        {% for field, errors in form.errors.items %}
+        {% for error in errors %}
+        <div>{{ error }}</div>
+        {% endfor %}
+        {% endfor %}
+      </div>
+      {% endif %}
+      <div class="form-outline mb-4">
+        <input id="form2Example1" class="form-control" type="text" name="username" autofocus autocapitalize="none"
+          autocomplete="username" maxlength="150" required id="id_username" />
+        <label class="form-label" for="form2Example1">Username</label>
+      </div>
+
+      <!-- Password input -->
+      <div class="form-outline mb-4">
+        <input id="form2Example2" class="form-control" type="password" name="password" autocomplete="current-password"
+          required id="id_password" />
+        <label class="form-label" for="form2Example2">Password</label>
+      </div>
+
+      <!-- 2 column grid layout for inline styling -->
+      <div class="row mb-4">
+        <div class="col d-flex justify-content-center">
+
+          <div class="col">
+            <!-- Simple link -->
+            <a href="#!">Forgot password?</a>
+          </div>
+        </div>
+
+        <!-- Submit button -->
+        <input type="submit" class="btn btn-primary btn-block mb-4" value="Login" style="color: green;">
+
+        <!-- Register buttons -->
+        <div class="text-center">
+          <p>Not Registered? <a href="{% url 'register' %}">Register</a></p>
+        </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
