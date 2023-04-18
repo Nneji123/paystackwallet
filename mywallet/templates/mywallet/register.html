@@ -3,7 +3,7 @@
 <div class="container mt-5 mx-auto" style="max-width: 500px">
   <div class="card">
 <h1 class="mx-auto" style="color: #3b71ca;;">Register for MyWallet</h1>
-<form class="mx-auto" style="max-width: 300px;" method="post" id="register-form">
+{% comment %} <form class="mx-auto" style="max-width: 300px;" method="post" id="register-form">
   <!-- Email input -->
   {% csrf_token %}
 
@@ -55,7 +55,36 @@
     <div class="text-center">
       <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
     </div>
+</form> {% endcomment %}
+<form method="post">
+  {% csrf_token %}
+  {% if form.errors %}
+  <div class="alert alert-danger" class="mx-auto">
+    {% for field, errors in form.errors.items %}
+    {% for error in errors %}
+    <div>{{ error }}</div>
+    {% endfor %}
+    {% endfor %}
+  </div>
+  {% endif %}
+  <div class="form-group">
+      <label for="{{ form.email.id_for_label }}">Email address:</label>
+      {{ form.email }}
+  </div>
+  <div class="form-group">
+      <label for="{{ form.password1.id_for_label }}">Password:</label>
+      {{ form.password1 }}
+  </div>
+  <div class="form-group">
+      <label for="{{ form.password2.id_for_label }}">Confirm password:</label>
+      {{ form.password2 }}
+  </div>
+  <button type="submit" class="btn btn-primary">Register</button>
+  <div class="text-center">
+    <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+  </div>
 </form>
+
 </div>
 </div>
 {% endblock %}
