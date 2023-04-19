@@ -1,20 +1,27 @@
 {% extends 'mywallet/main.html' %}
 {% block content %}
 <div class="container mt-5 mx-auto" style="max-width: 500px">
-    <div class="card">
-
-<div class="card rounded">
+  <div class="card">
     <div class="card-body">
       <h5 class="card-title">Wallet Balance</h5>
       <p class="card-text">User Information:</p>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">Username: {{ user.username }}</li>
+        {% comment %} <li class="list-group-item">Username: {{ user.username }}</li> {% endcomment %}
         <li class="list-group-item">Email: {{ user.email }}</li>
         <li class="list-group-item">Wallet Balance: {{ wallet_balance }}</li>
       </ul>
-      <a href="{% url 'logout' %}" class="btn btn-danger mt-3">Logout</a>
+      <a href="{% url 'logout' %}" class="btn btn-danger float-right mt-3">Logout</a>
+      <form id="paymentForm">
+        {% csrf_token %}
+        <input type="number" id="amount" class="form-control mt-3" placeholder="Enter amount to fund" required>
+        <button href="#" class="btn btn-primary float-left mt-3 mr-2" type="submit">Fund Wallet</button>
+      </form>
     </div>
   </div>
 </div>
-</div>
+<script>
+
+</script>
+
 {% endblock %}
+

@@ -1,28 +1,29 @@
 from django.contrib.auth import login
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
-from django.db import transaction
-from django.http.response import Http404
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 # Imports for Reordering Feature
 from django.views import View
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import (CreateView, DeleteView, FormView,
-                                       UpdateView)
-from django.views.generic.list import ListView
+from django.views.generic.edit import FormView
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+import json
+from decimal import Decimal
 
-from .forms import CustomUserCreationForm
+
+from django.shortcuts import render
+from django.views import View
+from django.http import JsonResponse
 from .models import Wallet
 
+from .forms import CustomUserCreationForm, CustomLoginForm
+from .models import Wallet
 
 class CustomLoginView(LoginView):
     template_name = 'mywallet/login.html'
-    fields = '__all__'
+    authentication_form = CustomLoginForm
     redirect_authenticated_user = True
 
     def get_success_url(self) -> str:
@@ -45,7 +46,7 @@ class RegisterView(FormView):
     def get(self, *args, **kwargs):
         if self.request.user.is_authenticated:
 
-            return redirect('tasks')
+            return redirect('wallet')
         return super(RegisterView, self).get(*args, **kwargs)
 
 
@@ -63,3 +64,23 @@ class WalletView(LoginRequiredMixin, TemplateView):
         context['user'] = user
         context['wallet_balance'] = wallet_balance
         return context
+
+
+class UpdateWalletView(View):
+    def post(self, request, *args, **kwargs):
+        data = json.loads(request.body.decode('utf-8'))
+        funded_amount = data.get('amount')
+        print(funded_amount)
+        user = self.request.user
+
+        if funded_amount is not None:
+            try:
+                wallet = Wallet.objects.get(user=user)
+                wallet.balance += Decimal(funded_amount)
+                wallet.save()
+                return JsonResponse({'status': 'success', 'message': 'Database updated successfully!'})
+            except ValueError:
+                return JsonResponse({'status': 'error', 'message': 'Invalid amount'})
+        else:
+            return JsonResponse({'status': 'error', 'message': 'Amount not provided'})
+

@@ -3,7 +3,7 @@
 <div class="container mt-5 mx-auto" style="max-width: 500px">
   <div class="card">
 
-    <h1 class="mx-auto" style="color: green">Login to MyWallet</h1>
+    <h1 class="mx-auto" style="color: #3b71ca;">Login to MyWallet</h1>
     <form class="mx-auto" style="max-width: 300px;" method="post">
       <!-- Email input -->
       {% csrf_token %}
@@ -18,16 +18,14 @@
       </div>
       {% endif %}
       <div class="form-outline mb-4">
-        <input id="form2Example1" type="email" class="form-control" type="text" name="email" autofocus autocapitalize="none"
-          autocomplete="email" maxlength="150" required id="id_email" />
-        <label class="form-label" for="form2Example1">Email</label>
-      </div>
+        <input type="email" name="username" maxlength="254" autofocus required id="id_username" class="form-control">
+        <label for="id_username"  class="form-label">Email address</label>
 
-      <!-- Password input -->
+      </div>
       <div class="form-outline mb-4">
-        <input id="form2Example2" class="form-control" type="password" name="password" autocomplete="current-password"
-          required id="id_password" />
-        <label class="form-label" for="form2Example2">Password</label>
+        <input type="password" name="password" autocomplete="current-password" required id="id_password" class="form-control">
+          <label for="id_password"  class="form-label">Password</label>
+
       </div>
 
       <!-- 2 column grid layout for inline styling -->
