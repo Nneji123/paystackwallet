@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from .managers import CustomUserManager
 
+
 class User(AbstractUser, models.Model):
     username = None
     email = models.EmailField(("email address"), unique=True)
@@ -15,6 +16,7 @@ class User(AbstractUser, models.Model):
 
     def __str__(self):
         return self.email
+
 
 class Wallet(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
