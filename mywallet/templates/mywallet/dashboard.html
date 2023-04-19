@@ -1,27 +1,28 @@
 {% extends 'mywallet/main.html' %}
 {% block content %}
+{% load static %}
+
 <div class="container mt-5 mx-auto" style="max-width: 500px">
   <div class="card">
-    <div class="card-body">
+    <div class="card-body text-center"> <!-- Added 'text-center' class to center align the content -->
+      <img src="{% static 'img/profile_pic.png' %}" alt="Profile Picture" class="rounded-circle" style="max-width: auto; margin-top:auto;"> <!-- Added image tag to display user profile picture, with styling to center align and position below the heading -->
       <h5 class="card-title">Wallet Balance</h5>
-      <p class="card-text">User Information:</p>
       <ul class="list-group list-group-flush">
-        {% comment %} <li class="list-group-item">Username: {{ user.username }}</li> {% endcomment %}
-        <li class="list-group-item">Email: {{ user.email }}</li>
-        <li class="list-group-item">Wallet Balance: {{ wallet_balance }}</li>
+        <li class="list-group-item" id="email"><strong>Email:</strong> {{ user.email }}</li>
+        <li class="list-group-item" id="walletBalance"><strong>Wallet Balance:</strong> {{ wallet_balance }}</li>
       </ul>
-      <a href="{% url 'logout' %}" class="btn btn-danger float-right mt-3">Logout</a>
       <form id="paymentForm">
         {% csrf_token %}
-        <input type="number" id="amount" class="form-control mt-3" placeholder="Enter amount to fund" required>
-        <button href="#" class="btn btn-primary float-left mt-3 mr-2" type="submit">Fund Wallet</button>
+        <div class="form-group mt-3">
+          <label for="amount">Enter amount to fund</label>
+          <input type="number" id="amount" class="form-control" placeholder="Amount" required style="margin-bottom: 50px;">
+        </div>
+        <div class="d-flex justify-content-between">
+          <button href="#" class="btn btn-primary" type="submit">Fund Wallet</button>
+          <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+        </div>
       </form>
     </div>
   </div>
 </div>
-<script>
-
-</script>
-
 {% endblock %}
-

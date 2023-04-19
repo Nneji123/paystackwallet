@@ -10,7 +10,7 @@ class UserAdmin(admin.ModelAdmin):
         "is_staff",
         "is_superuser",
     )
-
+    list_editable = ("email", "profile_pic", "is_staff", "is_superuser")
 
 class WalletAdmin(admin.ModelAdmin):
     list_display = ("user", "balance")

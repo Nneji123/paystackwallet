@@ -57,6 +57,7 @@ class WalletView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
+        print(user.profile_pic.url)
         try:
             wallet = Wallet.objects.get(user=user)
             wallet_balance = wallet.balance
@@ -81,7 +82,7 @@ class UpdateWalletView(View):
                 wallet.balance += Decimal(funded_amount)
                 wallet.save()
                 return JsonResponse(
-                    {"status": "success", "message": "Database updated successfully!"}
+                    {"status": "success", "message": "Database updated successfully!", "wallet_balance": wallet.balance}
                 )
             except ValueError:
                 return JsonResponse({"status": "error", "message": "Invalid amount"})
