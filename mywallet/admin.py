@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from .models import User, Wallet
 
 
@@ -11,6 +12,7 @@ class UserAdmin(admin.ModelAdmin):
         "is_superuser",
     )
     list_editable = ("email", "profile_pic", "is_staff", "is_superuser")
+
 
 class WalletAdmin(admin.ModelAdmin):
     list_display = ("user", "balance")

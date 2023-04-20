@@ -1,25 +1,17 @@
-from django.contrib.auth import login
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView
-from django.shortcuts import redirect
-from django.urls import reverse_lazy
-
-# Imports for Reordering Feature
-from django.views import View
-from django.views.generic.edit import FormView
-from django.shortcuts import render
-from django.views.generic import TemplateView
-from django.contrib.auth.mixins import LoginRequiredMixin
 import json
 from decimal import Decimal
 
-
-from django.shortcuts import render
-from django.views import View
+from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView
 from django.http import JsonResponse
-from .models import Wallet
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
+from django.views import View
+from django.views.generic import TemplateView
+from django.views.generic.edit import FormView
 
-from .forms import CustomUserCreationForm, CustomLoginForm
+from .forms import CustomLoginForm, CustomUserCreationForm
 from .models import Wallet
 
 
@@ -57,14 +49,12 @@ class WalletView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        print(user.profile_pic.url)
+        # print(user.profile_pic.url)
         try:
             wallet = Wallet.objects.get(user=user)
             wallet_balance = wallet.balance
         except Wallet.DoesNotExist:
-            wallet_balance = (
-                0.00  # Default balance if Wallet instance does not exist for the user
-            )
+            wallet_balance = 0.00
         context["user"] = user
         context["wallet_balance"] = wallet_balance
         return context
@@ -82,7 +72,11 @@ class UpdateWalletView(View):
                 wallet.balance += Decimal(funded_amount)
                 wallet.save()
                 return JsonResponse(
-                    {"status": "success", "message": "Database updated successfully!", "wallet_balance": wallet.balance}
+                    {
+                        "status": "success",
+                        "message": "Database updated successfully!",
+                        "wallet_balance": wallet.balance,
+                    }
                 )
             except ValueError:
                 return JsonResponse({"status": "error", "message": "Invalid amount"})
